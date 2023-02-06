@@ -46,8 +46,6 @@ class MainActivity : AppCompatActivity() {
     val BGLocationPerms = 5002
     val StoragePerms = 5003
 
-
-
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +57,8 @@ class MainActivity : AppCompatActivity() {
 
 
         //asking for stupid fucking permissions.....
+
+
 
         showFileWritePermsDialogue()
 
@@ -89,7 +89,9 @@ class MainActivity : AppCompatActivity() {
 
 
         //location is working....
-        //showLocationPermsDialogue()
+        showLocationPermsDialogue()
+        showBGLocationPermsDialogue()
+
 
 
         val text = findViewById<TextView>(R.id.text)
@@ -121,28 +123,58 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun showLocationPermsDialogue() {
+
+    private fun askAllPerms() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Log.i("FuckingPerms", "Location Perms are already granted :)")
+            Log.i("fuck-you", "Location Perms are already granted :)")
         } else {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LocationPerms)
-                Log.i("FuckingPerms", "Asking for Location Perms")
+                Log.i("fuck-you", "Asking for Location Perms")
             }
         }
     }
 
+
+
+
+
+    private fun showLocationPermsDialogue() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Log.i("fuck-you", "Location Perms are already granted :)")
+        } else {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LocationPerms)
+                Log.i("fuck-you", "Asking for Location Perms")
+            }
+        }
+    }
+
+
+    private fun showBGLocationPermsDialogue() {
+        if(SDK_INT >= 29) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Log.i("fuck-you", "Background Location Perms are already granted :)")
+        } else {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), BGLocationPerms)
+                Log.i("fuck-you", "Asking for Background Location Perms")
+            }
+        }
+        }
+    }
 
     private fun showFileWritePermsDialogue() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Log.i("FuckingPerms", "Storage Perms are already granted :)")
+            Log.i("fuck-you", "Storage Perms are already granted :)")
         } else {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), StoragePerms)
-                Log.i("FuckingPerms", "Asking for Storage Perms")
+                Log.i("fuck-you", "Asking for Storage Perms")
             }
         }
     }
+
 
 
     fun runme() {
@@ -281,17 +313,6 @@ class MainActivity : AppCompatActivity() {
             it.println(content)
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
