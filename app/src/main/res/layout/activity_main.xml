@@ -24,6 +24,14 @@
 
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30sp"
+        android:text="Fuck you android permissions!!!!!!   complicated shit!" />
+
+
+
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -1,19 +1,35 @@
 package own.fuckingpermissions
 
+/*
+*
+* Fucking Permissions.....
+*
+* Google is cocksucker for making this shit compicated
+*
+* IT do not work in Android 13 on my new pixel phone.
+*
+* */
+
+
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import own.fuckingpermissions.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
+
+    val StoragePerms = 5000
+    val LocationPerms = 5001
+
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,8 +37,15 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.toolbar)
+
+
+        //asking for stupid fucking permissions.....
+        showFileWritePermsDialogue()
+
+        showLocationPermsDialogue()
+
+        
 
 
 
@@ -51,7 +74,43 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private fun showLocationPermsDialogue() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Log.i("FuckingPerms", "Location Perms are already granted :)")
+        } else {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LocationPerms)
+                Log.i("FuckingPerms", "Asking for Location Perms")
+            }
+        }
+    }
 
+
+    private fun showFileWritePermsDialogue() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Log.i("FuckingPerms", "Storage Perms are already granted :)")
+        } else {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), StoragePerms)
+                Log.i("FuckingPerms", "Asking for Storage Perms")
+            }
+        }
+    }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
