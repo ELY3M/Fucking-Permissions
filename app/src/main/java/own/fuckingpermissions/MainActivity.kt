@@ -12,22 +12,40 @@ package own.fuckingpermissions
 
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import own.fuckingpermissions.databinding.ActivityMainBinding
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.nio.charset.Charset
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
 
 
-    val StoragePerms = 5000
+
+    val FilesPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/FuckYou/"
+    val PalFilesPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/FuckYou/pal/"
     val LocationPerms = 5001
+    val BGLocationPerms = 5002
+    val StoragePerms = 5003
+
 
 
     private lateinit var binding: ActivityMainBinding
@@ -41,12 +59,41 @@ class MainActivity : AppCompatActivity() {
 
 
         //asking for stupid fucking permissions.....
+
         showFileWritePermsDialogue()
 
-        showLocationPermsDialogue()
+
+
+        //FUCK YOU GOOGLE!!!!!!  They kept changing their code to "secure" the storage   FUCK YOU
+        //my ass will be at your new HQ offices and chewing you out for what you did to me.  I fucking hate companies that censor.
+        //I will make you pay my fucking income!!!!  FUCK YOU!!!!
+        //Google company Execs need metal pipes in their asses for breaking their promoise not to censor!!!!!
+        //file access permission functions moved to WX.kt
+        if(SDK_INT >= 30) {
+            Log.d("fuck-you", "SDK is 30 or above")
+            if(!Environment.isExternalStorageManager()) {
+                Log.d("fuck-you", "Trying to ask for access to sd card")
+                Toast.makeText(applicationContext, "This app need access to your phone memory or SD Card to make files and write files (/wX/ on your phone memory or sd card)\nThe all file access settings will open. Make sure to toggle it on to enable all files access for this app to function fully.\n You need to restart the app after you enabled the all files access for this app in the settings.\n", Toast.LENGTH_LONG).show()
+                val intent = Intent(ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
+                startActivity(intent)
+                //force restart :/
+                exitProcess(0)
+            } else {
+                runme()
+            }
+        } else {
+            runme()
+        }
 
 
 
+
+        //location is working....
+        //showLocationPermsDialogue()
+
+
+        val text = findViewById<TextView>(R.id.text)
+        text.setText("Fuck you android permissions!!!!!!   complicated shit!")
 
 
 
@@ -96,6 +143,156 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
+    fun runme() {
+
+        Log.d("fuck-you", "Storage Permissions Granted")
+        checkfiles(R.drawable.headingbug, "headingbug.png")
+        checkfiles(R.drawable.star_cyan, "star_cyan.png")
+        checkfiles(R.drawable.location, "location.png")
+        checkfiles(R.drawable.tvs, "tvs.png")
+        checkfiles(R.drawable.userpoint, "userpoint.png")
+        checkfiles(R.drawable.hailunknown, "hailunknown.png")
+        checkfiles(R.drawable.hail05, "hail05.png")
+        checkfiles(R.drawable.hail0, "hail0.png")
+        checkfiles(R.drawable.hail1, "hail1.png")
+        checkfiles(R.drawable.hail2, "hail2.png")
+        checkfiles(R.drawable.hail3, "hail3.png")
+        checkfiles(R.drawable.hail4, "hail4.png")
+        checkfiles(R.drawable.hailbig, "hailbig.png")
+
+        checkpalfiles(R.raw.colormap19, "colormap19.txt")
+        checkpalfiles(R.raw.colormap30, "colormap30.txt")
+        checkpalfiles(R.raw.colormap56, "colormap56.txt")
+        checkpalfiles(R.raw.colormap134cod, "colormap134cod.txt")
+        checkpalfiles(R.raw.colormap135cod, "colormap135cod.txt")
+        checkpalfiles(R.raw.colormap159cod, "colormap159cod.txt")
+        checkpalfiles(R.raw.colormap161cod, "colormap161cod.txt")
+        checkpalfiles(R.raw.colormap163cod, "colormap163cod.txt")
+        checkpalfiles(R.raw.colormap165cod, "colormap165cod.txt")
+        checkpalfiles(R.raw.colormap172cod, "colormap172cod.txt")
+        checkpalfiles(R.raw.colormapbvaf, "colormapbvaf.txt")
+        checkpalfiles(R.raw.colormapbvcod, "colormapbvcod.txt")
+        checkpalfiles(R.raw.colormapbveak, "colormapbveak.txt")
+        checkpalfiles(R.raw.colormaprefaf, "colormaprefaf.txt")
+        checkpalfiles(R.raw.colormaprefcode, "colormaprefcode.txt")
+        checkpalfiles(R.raw.colormaprefcodenh, "colormaprefcodenh.txt")
+        checkpalfiles(R.raw.colormaprefdkenh, "colormaprefdkenh.txt")
+        checkpalfiles(R.raw.colormaprefeak, "colormaprefeak.txt")
+        checkpalfiles(R.raw.colormaprefmenh, "colormaprefmenh.txt")
+        checkpalfiles(R.raw.colormaprefnssl, "colormaprefnssl.txt")
+        checkpalfiles(R.raw.colormaprefnwsd, "colormaprefnwsd.txt")
+        //elys custom color tables
+        checkpalfiles(R.raw.colormapownref, "colormapownref.txt")
+        checkpalfiles(R.raw.colormapownvel, "colormapownvel.txt")
+        checkpalfiles(R.raw.colormapownenhvel, "colormapownenhvel.txt")
+        //need to run it again
+        //ColorPalettes.initialize(applicationContext)
+
+        //make to download new conus everytime the app start...
+        //Log.d("fuck-you", "downloading conus on start....")
+        //UtilityConusRadar.getConusImage()
+
+        //start service for Spotter Network Location Auto Reporting
+        //if (RadarPreferences.sn_locationreport) {
+        //    applicationContext.startService(Intent(applicationContext, SpotterNetworkPositionReportService::class.java))
+        //}
+
+        /*
+        if (Utility.readPref(this, "LAUNCH_TO_RADAR", "false") == "false") {
+            Route(this, WX::class.java)
+        } else {
+            val wfo = Location.wfo
+            val state = UtilityLocation.getWfoSiteName(wfo).split(",")[0]
+            val radarSite = Location.getRid(this, Location.currentLocationStr)
+            Route.radar(this, arrayOf(radarSite, state))
+        }
+
+         */
+
+    }
+
+
+    fun checkfiles(drawable: Int, filename: String) {
+        Log.d("fuck-you", "running files check on " + FilesPath)
+        val dir = File(FilesPath)
+        if (!dir.exists()) {
+            Log.d("fuck-you", "making dir")
+            dir.mkdirs()
+        }
+
+        var file = File(FilesPath + filename)
+        var fileExists = file.exists()
+        if(!fileExists)
+        {
+            //need to copy files!
+            Log.d("fuck-you", filename + " does not exist.")
+            var bitmap: Bitmap = BitmapFactory.decodeResource(resources, drawable)
+            saveBitmapToFile(filename, bitmap)
+
+        } else {
+            Log.d("fuck-you", filename + " are there!")
+        }
+    }
+
+    fun saveBitmapToFile(fileName: String, bm: Bitmap) {
+        val file = File(FilesPath, fileName)
+        try {
+            val out = FileOutputStream(file)
+            bm.compress(Bitmap.CompressFormat.PNG, 100, out)
+            out.flush()
+            out.close()
+            Log.d("fuck-you", fileName + " copied!")
+        } catch (e: Exception) {
+            Log.d("fuck-you", "checkfiles Exception!")
+            e.printStackTrace()
+        }
+
+    }
+
+
+    //check colortable files and copy if any missing//
+    fun checkpalfiles(resourceId: Int, filename: String) {
+        Log.d("fuck-you", "running files check on " + PalFilesPath)
+        val dir = File(PalFilesPath)
+        if (!dir.exists()) {
+            Log.d("fuck-you", "making dir")
+            dir.mkdirs()
+        }
+
+        var file = File(PalFilesPath + filename)
+        var fileExists = file.exists()
+        if(!fileExists)
+        {
+            //need to copy files!
+            Log.d("fuck-you", filename + " does not exist.")
+            saveRawToFile(filename, resourceId)
+        } else {
+            Log.d("fuck-you", filename + " are there!")
+        }
+    }
+
+    private fun saveRawToFile(fileName: String, resourceId: Int) {
+        val dir = PalFilesPath
+        var ins: InputStream = resources.openRawResource(resourceId)
+        var content = ins.readBytes().toString(Charset.defaultCharset())
+        File("$dir/$fileName").printWriter().use {
+            it.println(content)
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
